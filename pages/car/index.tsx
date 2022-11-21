@@ -1,11 +1,11 @@
+import CarPage from "../../compoents/ToC/Car";
 import ToCLayout from "../../compoents/ToC/Layout/ToCLayout";
-import LoginPage from "../../compoents/ToC/Login";
 
-export default function Login() {
+export default function Car() {
   return (
     <div>
       <ToCLayout>
-        <LoginPage></LoginPage>
+        <CarPage></CarPage>
       </ToCLayout>
     </div>
   )

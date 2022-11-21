@@ -1,11 +1,18 @@
 import ToCHead from "../Head";
 import ToCBody from "../Body";
 import ToCBottom from "../Bottom";
+import React from "react";
 
-export default function ToCLayout(){
+type ToCProps = {
+	children:React.ReactNode
+}
+
+export default function ToCLayout({children}:ToCProps){
 	return <>
 		<ToCHead></ToCHead>
-		<ToCBody></ToCBody>
+		{
+			children
+		}
 		<ToCBottom></ToCBottom>
 	</>
 }

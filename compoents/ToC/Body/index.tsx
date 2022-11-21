@@ -1,5 +1,5 @@
 import CarouselComponent from "./Components/Carousel";
-import SkillComponent from "./Components/Skill";
+import SeckillComponent from "./Components/Seckill";
 import SortComponent from "./Components/Sort";
 
 /**
@@ -13,8 +13,8 @@ export default function ToCBody(){
 	return (
 		<>
 			<CarouselComponent></CarouselComponent>
-			<SkillComponent></SkillComponent>
-			<SortComponent></SortComponent>
+			<SeckillComponent></SeckillComponent>
+			<SortComponent data={[{sort_type_name:"分类1",goods_name:["1","2"]}]}></SortComponent>
 		</>
 	);
 }

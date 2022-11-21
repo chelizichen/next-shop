@@ -10,6 +10,8 @@ import { Menu } from "antd";
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
 import Image from "next/image";
+import useHeadStore, {HeadTags} from "../../../store/module/head";
+
 function SeaC() {
   return (
     <Link href={"/home"}>
@@ -18,7 +20,28 @@ function SeaC() {
   );
 }
 
-const leftItems: MenuProps["items"] = [
+function SortLabelItem(data:Sort):MenuProps["items"]{
+  if(!data || !data.sort_type_name.length){
+    // @ts-ignore
+    data = {
+      sort_type_name:['分类1','分类2'],
+      sort_link:['sort1','sort2']
+    }
+  }
+  const children = data.sort_link.map((el,index)=>{
+    return {
+      key:el,
+      label:<Link href={'/sort/'+el}>{data.sort_type_name[index]}</Link>
+    }
+  })
+  return children
+}
+
+const leftItems = (data:Sort): MenuProps["items"]=>{
+  
+  const children = SortLabelItem(data)
+  
+  return ([
   {
     label: SeaC(),
     key: "图标",
@@ -32,42 +55,13 @@ const leftItems: MenuProps["items"] = [
     label: "分类",
     key: "分类",
     icon: <DatabaseOutlined />,
-    children: [
-      {
-        type: "group",
-        label: "类别1",
-        children: [
-          {
-            label: "Option 1",
-            key: "setting:1",
-          },
-          {
-            label: "Option 2",
-            key: "setting:2",
-          },
-        ],
-      },
-      {
-        type: "group",
-        label: "类别2",
-        children: [
-          {
-            label: "Option 3",
-            key: "setting:3",
-          },
-          {
-            label: "Option 4",
-            key: "setting:4",
-          },
-        ],
-      },
-    ],
+    children,
   },
-];
+])}
 
 const rightItems: MenuProps["items"] = [
   {
-    label: <Link href={"/admin"}>购物车</Link>,
+    label: <Link href={"/car"}>购物车</Link>,
     key:"购物车",
     icon:<ShoppingCartOutlined />
   },
@@ -84,11 +78,17 @@ const rightItems: MenuProps["items"] = [
     icon: <UserOutlined />,
   },
 ];
-function ToCHead() {
+
+type HeadProps = {
+  Sort:Sort
+}
+
+function ToCHead({Sort}:HeadProps) {
   const [RightItem,SetRightItem] = useState([])
   
   // 首次运行
   useEffect(()=>{
+    // 判断权限
     const permission = localStorage.getItem("permission")
     if(permission == "2" || permission == "1"){
       const newItem = rightItems?.filter(el=>{
@@ -98,28 +98,30 @@ function ToCHead() {
       // @ts-ignore
       SetRightItem((newItem))
     }
-    console.log(permission)
+    // 得到分类
   },[])
   
-  const [current, setCurrent] = useState("mail");
+  const { currTag ,setTag} = useHeadStore()
+  
 
-  const onClick: MenuProps["onClick"] = (e) => {
+  const onClick: MenuProps["onClick"] = (e:any) => {
     console.log("click ", e);
-    setCurrent(e.key);
+    setTag(e.key)
+    console.log('currTag',currTag)
   };
 
   return (
     <div className="flex_space_between head">
       <Menu
+        defaultSelectedKeys={[currTag]}
         onClick={onClick}
-        selectedKeys={[current]}
         mode="horizontal"
-        items={leftItems}
+        items={leftItems(Sort)}
         style={{ width: "400px", height: "60px" }}
       />
       <Menu
+        defaultSelectedKeys={[currTag]}
         onClick={onClick}
-        selectedKeys={[current]}
         mode="horizontal"
         items={RightItem}
         className={"head"}
