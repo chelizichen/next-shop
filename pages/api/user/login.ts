@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { user, validate } from "../../../types/user";
-import { getConn, getRedis } from "../../../utils/db";
+import { getConn } from "../../../utils/db";
 import Ret from "../../../utils/ret";
 
 async function Login(data: user & validate) {

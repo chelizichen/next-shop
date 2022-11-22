@@ -5,9 +5,11 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {permission} from "../../../types/user";
 import {useRouter} from "next/router";
+import {menu_table} from "../../../types/menu";
+import useMenuStore from "../../../store/module/menu";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -45,29 +47,26 @@ async function generateMenu(Permission:permission){
   return
 }
 
-const items: MenuProps["items"] = [
-  getItem("Navigation One", "sub1", <MailOutlined />, [
-    getItem("Option 1", "1"),
-    getItem("Option 2", "2"),
-  ]),
-  getItem("Navigation One", "sub1", <MailOutlined />, [
-    getItem("Option 1", "1"),
-    getItem("Option 2", "2"),
-  ]),
-  getItem("Navigation One", "sub1", <MailOutlined />, [
-    getItem("Option 1", "1"),
-    getItem("Option 2", "2"),
-  ]),
-];
 
-export default function ToBLeft({menu}:any){
+
+export default function ToBLeft(){
+
+  let {menu,setMenu,getMenu} = useMenuStore()
+  let router = useRouter()
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
+    router.push(e.key)
   };
-  useEffect(()=>{
-    console.log('menu',menu)
-  })
 
+  useEffect(()=>{
+    (async function(){
+      const data =await  getMenu()
+      console.log('data',data.data.data)
+      setMenu(data.data.data)
+    }())
+    // setMenu()
+  },[])
+  
   return (
     <Menu
       onClick={onClick}
@@ -75,7 +74,7 @@ export default function ToBLeft({menu}:any){
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["sub1"]}
       mode="inline"
-      items={items}
+      items={menu}
     />
   );
 };

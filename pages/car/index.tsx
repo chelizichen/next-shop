@@ -1,12 +1,12 @@
 import CarPage from "../../compoents/ToC/Car";
-import Index from "../../compoents/ToC/Layout";
+import ToCLayout from "../../compoents/ToC/Layout";
 
 export default function Car() {
   return (
     <div>
-      <Index>
+      <ToCLayout>
         <CarPage></CarPage>
-      </Index>
+      </ToCLayout>
     </div>
   )
 }

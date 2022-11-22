@@ -10,10 +10,10 @@ export function login(data: user & validate) {
   });
 }
 
-export function getMenu(data:Pick<userInfo,"userId"|"token"|"permission">){
+export function getMenu(data:Pick<userInfo,"userId"|"permission">){
   return request({
-    url: "menu",
-    method: "post",
+    url: "/user/menu",
+    method: "get",
     data,
   })
 }

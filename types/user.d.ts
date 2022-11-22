@@ -17,7 +17,6 @@ export enum permission {
 export type userInfo = {
   userId: number;
   permission: permission;
-  menu: any;
   phone: number;
   token: string;
 };

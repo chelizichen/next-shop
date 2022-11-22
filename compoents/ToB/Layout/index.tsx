@@ -2,11 +2,11 @@ import React from "react";
 import ToBHead from "../Head";
 import ToBLeft from "../Left";
 import {Layout} from "antd";
+
 type ToCLayout = {
 	children:React.ReactNode;
-	menu:menu_table[];
 }
-export default function ToBLayout({children,menu}:ToCLayout){
+export default function ToBLayout({children}:ToCLayout){
 	return(
 		<Layout>
 			<Layout.Header>
@@ -22,7 +22,7 @@ justify-content: space-between;
 }
 `}
 					</style>
-					<ToBLeft menu={menu}></ToBLeft>
+					<ToBLeft></ToBLeft>
 					<Layout.Content>
 						{
 							children
