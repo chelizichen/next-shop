@@ -13,7 +13,7 @@ async function getCarouselData(){
 			resolve( hasRedisData)
 		}else {
 			const conn = await getConn()
-			conn.query("select * from skill limit 0,10",function (err,data){
+			conn.query("select * from seckill limit 0,10",function (err,data){
 				if(err){
 					reject(err)
 				}

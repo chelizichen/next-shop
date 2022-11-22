@@ -2,12 +2,20 @@ import { validate, user, userInfo } from "./../types/user.d";
 import request from "../utils/request";
 
 // ret ->  user_permission 1 2 3 4
-export function login(data: user & Pick<validate, "code">) {
+export function login(data: user & validate) {
   return request({
     url: "login",
     method: "post",
     data,
   });
+}
+
+export function getMenu(data:Pick<userInfo,"userId"|"token"|"permission">){
+  return request({
+    url: "menu",
+    method: "post",
+    data,
+  })
 }
 
 // 获取消费者信息

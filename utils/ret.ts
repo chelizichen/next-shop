@@ -6,4 +6,11 @@ export default class Ret {
       msg: "ok",
     };
   }
+  static error(data:any){
+    return {
+      code:-1,
+      data,
+      msg:"error"
+    }
+  }
 }

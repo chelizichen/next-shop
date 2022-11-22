@@ -93,7 +93,8 @@ function ToCHead({Sort}:HeadProps) {
     if(permission == "2" || permission == "1"){
       const newItem = rightItems?.filter(el=>{
          // @ts-ignore
-        return el.key != "管理"
+        // return el.key != "管理"
+        return el
       })
       // @ts-ignore
       SetRightItem((newItem))

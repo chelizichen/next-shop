@@ -4,15 +4,14 @@ export type user = {
 };
 
 export type validate = {
-  code: string; // 验证码
   remember: boolean; // 是否存入 cookie
 };
 
-enum permission {
-  super = 1, // 超级管理员
-  seller = 2, // 商家
-  custumer = 3, // 消费者
-  visitor = 4, // 访客
+export enum permission {
+  super = 4, // 超级管理员
+  seller = 3, // 商家
+  customer = 2, // 消费者
+  visitor = 1, // 访客
 }
 
 export type userInfo = {

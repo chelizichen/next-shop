@@ -1,7 +1,7 @@
 import ToCHead from "../Head";
 import ToCBody from "../Body";
 import ToCBottom from "../Bottom";
-import React from "react";
+import React, {useEffect} from "react";
 
 type ToCProps = {
 	children:React.ReactNode

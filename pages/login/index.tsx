@@ -1,12 +1,12 @@
-import ToCLayout from "../../compoents/ToC/Layout/ToCLayout";
+import Index from "../../compoents/ToC/Layout";
 import LoginPage from "../../compoents/ToC/Login";
 
 export default function Login() {
   return (
     <div>
-      <ToCLayout>
+      <Index>
         <LoginPage></LoginPage>
-      </ToCLayout>
+      </Index>
     </div>
   )
 }

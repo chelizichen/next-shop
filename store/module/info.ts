@@ -1,15 +1,27 @@
-import create from "zustand";
-import {getCustumerInfo} from "../../api/login";
+import create from 'zustand'
+import {userInfo} from "../../types/user";
 
-const useInfoStore = create((set,get)=>({
-	userInfo:{},
-	setInfo:async (info:any)=>{
-		const data = await getCustumerInfo({userId:info.id})
-		set({
-			userInfo:data
-		})
-	}
+
+interface Info {
+	info: userInfo
+	setInfo: (info: userInfo) => void
+}
+
+
+/**
+ * 登陆后存储到本地或从Local获取的数据
+ */
+const useInfoStore = create<Info>()((set) => ({
+	info: {
+		userId: 0,
+		permission: 4,
+		menu: [],
+		phone: 0,
+		token: ""
+	},
+	setInfo: (info:userInfo) =>{
+		set({ info })
+	},
 }))
 
-
-export default  useInfoStore
+export default useInfoStore
