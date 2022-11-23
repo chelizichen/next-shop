@@ -8,7 +8,7 @@ async function getConn() {
     database: "zrq_shop", //所用数据库
     port: 3306,
   };
-  const conn = await mysql.createPool({
+  const conn = await mysql.createConnection({
     host: config.host,
     user: config.user,
     password: config.password,

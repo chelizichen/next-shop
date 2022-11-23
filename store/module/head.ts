@@ -11,6 +11,10 @@ export enum HeadTags{
 interface HeadState {
 	currTag: string
 	setTag: (by: HeadTags) => void
+	adminTag:string
+	setAdminTag:(by:string) => void
+	adminOpenKeys:string,
+	setAdminOpenKeys:(by:string)=>void
 }
 
 /**
@@ -20,6 +24,14 @@ const useHeadStore = create<HeadState>()((set) => ({
 	currTag: "主页",
 	setTag: (tag:HeadTags) =>{
 		set({ currTag:tag })
+	},
+	adminTag:"",
+	setAdminTag(by: string) {
+		set({adminTag:by})
+	},
+	adminOpenKeys:"",
+	setAdminOpenKeys(by:string){
+		set({adminOpenKeys:by})
 	}
 }))
 

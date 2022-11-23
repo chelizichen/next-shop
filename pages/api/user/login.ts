@@ -8,7 +8,7 @@ async function Login(data: user & validate) {
   const db = await getConn();
   return new Promise((resolve, reject) => {
     db.query(
-      "select * from user where username = ? and password = ?",
+      "select * from user where us_name = ? and us_password = ?",
       [data.username, data.password],
       (err, result) => {
         if (err) reject(err);

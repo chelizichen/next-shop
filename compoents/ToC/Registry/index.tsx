@@ -7,39 +7,42 @@ import {InputRef} from "antd/lib/input/Input";
 /**
  * HTTP 请求
  */
-export default function LoginPage() {
+export default function RegistryPage() {
 	const username = useRef<InputRef>();
 	const password = useRef<InputRef>();
 	const router = useRouter();
-	const  { runLogin } = useInfoStore()
+	const  { runRegistry,runLogin } = useInfoStore()
 	function submit() {
-
+		
 		if(username.current && password.current){
-			const data = {
+			let data = {
 				// @ts-ignore
 				username : username.current?.input.value,
 				// @ts-ignore
 				password :password.current?.input.value,
-				remember:true
-			}
-			runLogin(data).then(res=>{
+				
+			} as any
+      runRegistry(data).then(res=>{
 				if(res.data.code == 0){
-					router.push('/home')
+					data.remember = true
+					runLogin(data).then(res=>{
+						if(res.data.code == 0){
+							router.replace('/home')
+						}
+					})
 				}
-			})
+      })
+			
 		}
 	}
-	function registry(){
-		router.replace('/registry')
-	}
+	
 	return (
 		<div>
 			用户名：
 			<Input ref={username} />
 			密码：
 			<Input ref={password} />
-			<Button onClick={submit}>登陆</Button>
-			<div onClick={registry}>没有账号？注册一个</div>
+			<Button onClick={submit}>注册</Button>
 		</div>
 	);
 }

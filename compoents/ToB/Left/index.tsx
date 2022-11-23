@@ -10,6 +10,7 @@ import {permission} from "../../../types/user";
 import {useRouter} from "next/router";
 import {menu_table} from "../../../types/menu";
 import useMenuStore from "../../../store/module/menu";
+import useHeadStore from "../../../store/module/head";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -52,15 +53,18 @@ async function generateMenu(Permission:permission){
 export default function ToBLeft(){
 
   let {menu,setMenu,getMenu} = useMenuStore()
+  let {adminTag,setAdminTag,adminOpenKeys,setAdminOpenKeys} = useHeadStore()
   let router = useRouter()
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
+    setAdminTag(e.key)
+    setAdminOpenKeys(e.keyPath[1])
     router.push(e.key)
   };
 
   useEffect(()=>{
     (async function(){
-      const data =await  getMenu()
+      const data =await getMenu()
       console.log('data',data.data.data)
       setMenu(data.data.data)
     }())
@@ -71,8 +75,9 @@ export default function ToBLeft(){
     <Menu
       onClick={onClick}
       style={{ width: 256 }}
-      defaultSelectedKeys={["1"]}
-      defaultOpenKeys={["sub1"]}
+      defaultSelectedKeys={[adminTag]}
+      defaultOpenKeys={[adminOpenKeys,adminTag]}
+      selectedKeys={[adminOpenKeys,adminTag]}
       mode="inline"
       items={menu}
     />

@@ -4,10 +4,19 @@ import request from "../utils/request";
 // ret ->  user_permission 1 2 3 4
 export function login(data: user & validate) {
   return request({
-    url: "login",
+    url: "/user/login",
     method: "post",
     data,
   });
+}
+
+// 注册
+export function registry(data:user) {
+  return request({
+    url: "/user/registry",
+    method: "post",
+    data,
+  })
 }
 
 export function getMenu(data:Pick<userInfo,"userId"|"permission">){
@@ -17,6 +26,8 @@ export function getMenu(data:Pick<userInfo,"userId"|"permission">){
     data,
   })
 }
+
+
 
 // 获取消费者信息
 // 获得购物车表 && 收藏
@@ -33,5 +44,4 @@ export function getCustumerInfo(params: Pick<userInfo, "userId">) {
 // 获得管理员菜单
 export function getBusinessMenu(params: Pick<userInfo, "permission">) {}
 
-// 注册
-export function registry() {}
+
