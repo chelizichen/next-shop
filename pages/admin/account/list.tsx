@@ -1,12 +1,46 @@
 import ToBLayout from "../../../compoents/ToB/Layout";
 import {getAccountList} from "../../api/ToB/account/list";
 import type { ColumnsType, TableProps } from 'antd/es/table';
-import React, {useState} from 'react';
-import {Button, message, Popconfirm, Table} from "antd";
+import React, {useContext, useRef, useState} from 'react';
+import {Button, message, Modal, Popconfirm, Table} from "antd";
 import {del_user} from "../../../api/user";
-import {user_table} from "../../../types/account";
 import {useRouter} from "next/router";
+import {user_table} from "../../../types/user";
 
+
+const Visiable = React.createContext({}) as any
+
+
+function UpdateComponent({open,data}:any){
+
+	const setOpen = useContext(Visiable) as any
+	
+	const handleOk = (e: React.MouseEvent<HTMLElement>) => {
+		console.log(e);
+		setOpen(false)
+	};
+	
+	const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
+		console.log(e);
+		setOpen(false)
+	};
+	
+	return(
+		<Modal
+			title="Basic Modal"
+			open={open}
+			onOk={handleOk}
+			onCancel={handleCancel}
+			okButtonProps={{ disabled: false }}
+			cancelButtonProps={{ disabled: false }}
+		>
+			<p>Some contents...</p>
+			<p>Some contents...</p>
+			<p>Some contents...</p>
+			<p>{data}</p>
+		</Modal>
+	)
+}
 
 function ActionComponent({record}:any){
 	const router = useRouter()
@@ -25,9 +59,11 @@ function ActionComponent({record}:any){
 		del_action(record)
 	};
 	
+	const setOpen = useContext(Visiable) as Function
+	
 	return (
 		<div>
-			<Button disabled={canSet} type={"primary"}>修改</Button>
+			<Button disabled={canSet} type={"primary"} onClick={()=>setOpen(true,2)}>修改</Button>
 			<Popconfirm
 				title="Are you sure to delete this task?"
 				// @ts-ignore
@@ -92,9 +128,24 @@ function AccountList({list}:any){
 }
 
 export default function AccountPage({list}:any){
+	console.log('list',list)
+
+	const [open,setOpen]  = useState(false)
+	const [data,setData] = useState(1)
+
+	function handleSetOpen(bool:boolean,data?:any){
+		setOpen(bool)
+		if(data){
+			setData(data)
+		}
+	}
+	
 	return(
 		<ToBLayout>
-			{/*<AccountList list={JSON.parse(list)}></AccountList>*/}
+			<Visiable.Provider value={handleSetOpen}>
+				<AccountList list={JSON.parse(list)}></AccountList>
+				<UpdateComponent open={open} data={data}></UpdateComponent>
+			</Visiable.Provider>
 		</ToBLayout>
 	)
 }

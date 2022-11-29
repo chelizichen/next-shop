@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {getConn} from "../../../../utils/db";
-import {user_table} from "../../../../types/account";
+import {user_table} from "../../../../types/user";
 
 
 export async function delAccountById(query:user_table){
@@ -10,8 +10,8 @@ export async function delAccountById(query:user_table){
 			resolve(res)
 		})
 	})
-	
 }
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse

@@ -17,7 +17,7 @@ import React, {useEffect, useState} from 'react';
 
 
 
-function SkillList({sort_type_name,goods_name}:Seckill){
+function SkillList({sort_type_name,goods_name}:skill__table){
 	return(
 		<div>
 			<div className={"sort_type_name"}>{sort_type_name}</div>

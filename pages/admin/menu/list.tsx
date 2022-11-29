@@ -9,10 +9,10 @@ import React, {useState} from "react";
 import {user_table} from "../../../types/account";
 import {Button, Menu, message, Popconfirm, Table} from "antd";
 import {ColumnsType, TableProps} from "antd/es/table";
-import {menu_table} from "../../../types/menu";
+import {is_root, menu_table} from "../../../types/menu";
 import {del_menu} from "../../../api/menu";
 
-function MenuCompnent({record}:any){
+function MenuComponent({record}:any){
 	const router = useRouter()
 	const [canSet,SetCanSet] = useState(false)
 	function del_action(data:user_table){
@@ -44,18 +44,28 @@ function MenuCompnent({record}:any){
 	)
 }
 
+// id:number;
+// us_permission:number; // 菜单所需要的权限
+// me_name:string; // 菜单名称
+// me_path:string; // 菜单路径
+// me_is_root:is_root // 是否为外层
+// me_root_id:number; // 为外层时父菜单ID
+
 const columns: ColumnsType<menu_table> = [
 	{
-		title: '用户名',
-		dataIndex: 'us_name',
+		title: '菜单名',
+		dataIndex: 'me_name',
 	},
 	{
-		title: '密码',
-		dataIndex: 'us_password',
+		title: '菜单路径',
+		dataIndex: 'me_path',
 	},
 	{
-		title: '电话',
-		dataIndex: 'us_phone',
+		title: '是否为父菜单',
+		dataIndex: 'me_is_root',
+		render:function (_,record){
+			return <div>{record.me_root_id?"是":"否"}</div>
+		}
 	},
 	{
 		title: '权限等级',
@@ -66,7 +76,7 @@ const columns: ColumnsType<menu_table> = [
 	{
 		title: '操作',
 		key: 'action',
-		render: (_, record) => <MenuCompnent record={record}></MenuCompnent>,
+		render: (_, record) => <MenuComponent record={record}></MenuComponent>,
 	},
 ];
 
