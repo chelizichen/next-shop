@@ -14,7 +14,9 @@ export default function ToCBody(){
 		<>
 			<CarouselComponent></CarouselComponent>
 			<SeckillComponent></SeckillComponent>
-			<SortComponent data={[{sort_type_name:"分类1",goods_name:["1","2"]}]}></SortComponent>
+			<SortComponent id={"1"}></SortComponent>
+			<SortComponent id={"2"}></SortComponent>
+			<SortComponent id={"3"}></SortComponent>
 		</>
 	);
 }

@@ -6,27 +6,56 @@ import {NextApiRequest, NextApiResponse} from "next";
 import Ret from "../../../utils/ret";
 
 async function getCarouselData(){
-	const redis = await getRedis()
-	const hasRedisData = await redis.get("data:carousel")
-	return new Promise(async (resolve,reject)=>{
-		if(hasRedisData){
-			resolve( hasRedisData)
+	// const redis = await getRedis()
+	// const ha sRedisData = await redis.get("data:carousel")
+	return new Promise(async (resolve, reject) => {
+		const conn = await getConn();
+    conn.query(
+      "select sort_type_name,goods_name from seckill,sort,goods where goods.sort_type_id = sort.id and seckill.go_id = goods.id limit 0,30",
+      function (err, data) {
+        if (err) {
+          reject(err);
+        }
+        resolve(data);
+      }
+    );
+	})
+}
+
+type toObj = {
+	key:string,
+	value:string[]
+}[]
+
+
+function toTypeObj(data:Array<{
+	sort_type_name:string,
+	goods_name:string;
+}>){
+	let newData:toObj = []
+	
+	data.forEach(el=>{
+		if(!newData.some(so=>so.key == el.sort_type_name)){
+			let obj = {
+				key:el.sort_type_name,
+				value:[] as string[]
+			}
+			obj.value.push(el.goods_name)
+			newData.push(obj)
 		}else {
-			const conn = await getConn()
-			conn.query("select * from seckill limit 0,10",function (err,data){
-				if(err){
-					reject(err)
-				}
-				resolve(data)
-			})
+			let index = newData.findIndex(so=>so.key == el.sort_type_name)
+			newData[index].value.push(el.goods_name)
 		}
 	})
 	
+	return newData;
 }
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
 	const data = await getCarouselData();
-	res.status(200).json(Ret.success(data));
+	let newData = toTypeObj(data)
+	res.status(200).json(Ret.success(newData));
 }
