@@ -8,3 +8,17 @@ export function getSortList(params:PamarmsId) {
 		params
 	});
 }
+
+export function getSortName(params:PamarmsId){
+	return request({
+		url: "/ToC/get_sort_name",
+		method: "get",
+		params
+	});
+}
+
+export function get_sort_list(){
+	return request({
+		url:"/ToC/get_sort_list"
+	})
+}

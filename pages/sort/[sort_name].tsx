@@ -1,4 +1,6 @@
 import {useEffect} from "react";
+import ToCLayout from "../../compoents/ToC/Layout";
+import RegistryPage from "../../compoents/ToC/Registry";
 
 
 /**
@@ -12,9 +14,11 @@ export default function SortPage({data}:any){
 		console.log(data.params.sort_name)
 	},[])
 	return(
-		<div>
-			分类页面{data.params.sort_name}
-		</div>
+		<ToCLayout>
+			<div>
+				分类页面{data.params.sort_name}
+			</div>
+		</ToCLayout>
 	)
 }
 

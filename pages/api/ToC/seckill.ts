@@ -5,7 +5,7 @@ import {getConn, getRedis} from "../../../utils/db";
 import {NextApiRequest, NextApiResponse} from "next";
 import Ret from "../../../utils/ret";
 
-async function getCarouselData(){
+async function getData(){
 	// const redis = await getRedis()
 	// const ha sRedisData = await redis.get("data:carousel")
 	return new Promise(async (resolve, reject) => {
@@ -55,7 +55,7 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	const data = await getCarouselData();
+	const data = await getData();
 	let newData = toTypeObj(data)
 	res.status(200).json(Ret.success(newData));
 }

@@ -8,9 +8,11 @@ import {
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import Link from "next/link";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Image from "next/image";
 import useHeadStore, {HeadTags} from "../../../store/module/head";
+import {sort__table} from "../../../types/sort";
+import {get_sort_list} from "../../../api/sort";
 
 function SeaC() {
   return (
@@ -20,24 +22,24 @@ function SeaC() {
   );
 }
 
-function SortLabelItem(data:Sort):MenuProps["items"]{
-  if(!data || !data.sort_type_name.length){
-    // @ts-ignore
-    data = {
-      sort_type_name:['分类1','分类2'],
-      sort_link:['sort1','sort2']
-    }
-  }
-  const children = data.sort_link.map((el,index)=>{
+function SortLabelItem(data:sort__table[]):any{
+  // if(!data || !data.sort_type_name.length){
+  //   // @ts-ignore
+  //   data = {
+  //     sort_type_name:['分类1','分类2'],
+  //     sort_link:['sort1','sort2']
+  //   }
+  // }
+  const children = data.map((el,index)=>{
     return {
-      key:el,
-      label:<Link href={'/sort/'+el}>{data.sort_type_name[index]}</Link>
+      key:el.sort_type_name,
+      label:<Link href={'/sort/'+el.sort_link}>{el.sort_type_name}</Link>
     }
   })
   return children
 }
 
-const leftItems = (data:Sort): MenuProps["items"]=>{
+const leftItems = (data:sort__table[]): MenuProps["items"]=>{
   
   const children = SortLabelItem(data)
   
@@ -80,25 +82,29 @@ const rightItems: MenuProps["items"] = [
 ];
 
 type HeadProps = {
-  Sort:Sort
+  // Sort:sort__table[]
 }
 
-function ToCHead({Sort}:HeadProps) {
+function ToCHead({}:HeadProps) {
   const [RightItem,SetRightItem] = useState([])
+  const [SortItem,SetSortItem] = useState([])
   
+  
+  // const useContext =
   // 首次运行
   useEffect(()=>{
     // 判断权限
     const permission = localStorage.getItem("permission")
     if(permission == "2" || permission == "1"){
       const newItem = rightItems?.filter(el=>{
-         // @ts-ignore
-        // return el.key != "管理"
         return el
-      })
-      // @ts-ignore
-      SetRightItem((newItem))
+      }) as any;
+      SetRightItem(newItem)
     }
+    get_sort_list().then(res=>{
+      console.log('res777',res.data.data)
+      SetSortItem(res.data.data)
+    })
     // 得到分类
   },[])
   
@@ -117,7 +123,7 @@ function ToCHead({Sort}:HeadProps) {
         defaultSelectedKeys={[currTag]}
         onClick={onClick}
         mode="horizontal"
-        items={leftItems(Sort)}
+        items={leftItems(SortItem)}
         style={{ width: "400px", height: "60px" }}
       />
       <Menu

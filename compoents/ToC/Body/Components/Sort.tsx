@@ -3,7 +3,7 @@
  * 使用分页进行控制
  */
 import {useEffect, useRef, useState} from "react";
-import {getSortList} from "../../../../api/sort";
+import {getSortList, getSortName} from "../../../../api/sort";
 import {goods_table} from "../../../../types/goods";
 
 /**
@@ -32,14 +32,20 @@ type Pick_Sort = Pick<Seckill,"sort_type_name"|"goods_name">
 
 export default function SortComponent({id}:any){
 	const [sort_list,set_list] = useState<goods_table[]>()
+	const [sort_name,set_name] = useState("")
 	useEffect(()=>{
 		getSortList({id}).then(res=>{
 			set_list(res.data.data)
+		})
+		getSortName({id}).then(res=>{
+			set_name(res.data.data[0].sort_type_name)
+			console.log(res.data)
 		})
 	},[])
 	
 	return(
 		<div>
+			<div>{sort_name}</div>
 			{sort_list?.map(el=>{
 				return(
 					<div>{el.goods_name}</div>
