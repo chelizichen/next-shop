@@ -22,3 +22,10 @@ export function get_sort_list(){
 		url:"/ToC/get_sort_list"
 	})
 }
+
+export function getTags(params:PamarmsId){
+	return request({
+		url:"/ToC/get_tags",
+		params
+	})
+}
