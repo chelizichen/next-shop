@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import {user, userInfo, validate} from "../../../types/user";
-import { getConn } from "../../../utils/db";
+import {conn} from "../../../utils/db";
 import Ret from "../../../utils/ret";
 
 /**
@@ -10,8 +10,9 @@ import Ret from "../../../utils/ret";
 
 async function hasPermission(data:userInfo){
 	return new Promise(async(resolve,reject)=>{
-		const db = await getConn();
-		db.query(
+		const connect =  (await conn)()
+		
+		connect.query(
 			"select * from user where us_permission = ? and id = ?",
 			[data.permission,data.userId],
 			(err, result) => {
@@ -29,9 +30,10 @@ export async function getMenu(data: userInfo) {
 			return  []// 后续更改
 		}
 	}
-	const db = await getConn();
+	const connect =  (await conn)()
+
 	return new Promise((resolve, reject) => {
-		db.query(
+		connect.query(
 			"select * from menu",
 			[data.permission],
 			(err, result) => {

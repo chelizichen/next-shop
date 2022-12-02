@@ -1,20 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {getConn} from "../../../../utils/db";
+import {conn} from "../../../../utils/db";
 
 
 export async function updateAccount(values:any[]){
-	const conn = await getConn()
+	const connect =  (await conn)()
+
 	return new Promise((resolve,reject)=>{
-		conn.query("update user  set ? where id = ?",(err,res)=>{
+		connect.query("update user  set ? where id = ?",(err,res)=>{
 			resolve(res)
 		})
 	})
 }
 
 export async function addAccount(values:any){
-	const conn = await getConn()
+	const connect =  (await conn)()
 	return new Promise((resolve,reject)=>{
-		conn.query("insert into user ?",[],(err,res)=>{
+		connect.query("insert into user ?",[],(err,res)=>{
 			resolve(res)
 		})
 	})

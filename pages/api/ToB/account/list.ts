@@ -1,12 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {getConn} from "../../../../utils/db";
+import {conn} from "../../../../utils/db";
 
 
 export async function getAccountList(){
-	const conn = await getConn()
+	const connect =  (await conn)()
 	return new Promise((resolve,reject)=>{
-		conn.query("select * from user",(err,res)=>{
+		connect.query("select * from user",(err,res)=>{
 			resolve(res)
 		})
 	})

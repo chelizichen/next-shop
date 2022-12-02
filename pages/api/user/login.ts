@@ -1,13 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { user, validate } from "../../../types/user";
-import { getConn } from "../../../utils/db";
+import {conn} from "../../../utils/db";
 import Ret from "../../../utils/ret";
 
 async function Login(data: user & validate) {
-  const db = await getConn();
+  const connect =  (await conn)()
+
   return new Promise((resolve, reject) => {
-    db.query(
+    connect.query(
       "select * from user where us_name = ? and us_password = ?",
       [data.username, data.password],
       (err, result) => {

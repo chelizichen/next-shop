@@ -11,23 +11,23 @@ import RegistryPage from "../../compoents/ToC/Registry";
 
 export default function SortPage({data}:any){
 	useEffect(()=>{
-		console.log(data.params.sort_name)
+		console.log(data.query.sort_name)
 	},[])
 	return(
 		<ToCLayout>
 			<div>
-				分类页面{data.params.sort_name}
+				分类页面{data.query.sort_name}
 			</div>
 		</ToCLayout>
 	)
 }
 
-export async function getServerSideProps({ params }: any) {
-	
+export async function getServerSideProps({ params,query }: any) {
+	console.log(query)
 	return {
 		props: {
 			data: {
-				params,
+				query,
 			},
 		},
 	};

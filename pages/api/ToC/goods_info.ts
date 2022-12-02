@@ -1,11 +1,12 @@
-import {getConn} from "../../../utils/db";
+import {conn} from "../../../utils/db";
 import {NextApiRequest, NextApiResponse} from "next";
 import Ret from "../../../utils/ret";
 
 async function getSortData(id:string){
 	return new Promise(async (resolve,reject)=>{
-		const conn = await getConn()
-		conn.query("select * from goods,seller where goods.id = ? and  goods.seller_id = seller.id; ",[id],function (err,data){
+		const connect =  (await conn)()
+		
+		connect.query("select * from goods,seller where goods.id = ? and  goods.seller_id = seller.id; ",[id],function (err,data){
 			if(err){
 				reject(err)
 			}

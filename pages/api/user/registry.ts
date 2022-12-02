@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { user, validate } from "../../../types/user";
-import { getConn } from "../../../utils/db";
+import {conn} from "../../../utils/db";
 import Ret from "../../../utils/ret";
 
 async function Login(data: user) {
-	const db = await getConn();
+	const connect =  (await conn)()
+
 	return new Promise((resolve, reject) => {
-		db.query(
+		connect.query(
 			"insert into  user set ?",
 			[{
 				us_name:data.username,

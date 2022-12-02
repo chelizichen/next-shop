@@ -23,17 +23,15 @@ function SeaC() {
 }
 
 function SortLabelItem(data:sort__table[]):any{
-  // if(!data || !data.sort_type_name.length){
-  //   // @ts-ignore
-  //   data = {
-  //     sort_type_name:['分类1','分类2'],
-  //     sort_link:['sort1','sort2']
-  //   }
-  // }
   const children = data.map((el,index)=>{
     return {
       key:el.sort_type_name,
-      label:<Link href={'/sort/'+el.sort_link}>{el.sort_type_name}</Link>
+      label:<Link href={{
+        pathname:'/sort/'+el.sort_link,
+        query:{
+          sort_id:el.id
+        }
+      }}>{el.sort_type_name}</Link>
     }
   })
   return children
@@ -90,7 +88,6 @@ function ToCHead({}:HeadProps) {
   const [SortItem,SetSortItem] = useState([])
   
   
-  // const useContext =
   // 首次运行
   useEffect(()=>{
     // 判断权限
@@ -102,7 +99,6 @@ function ToCHead({}:HeadProps) {
       SetRightItem(newItem)
     }
     get_sort_list().then(res=>{
-      console.log('res777',res.data.data)
       SetSortItem(res.data.data)
     })
     // 得到分类

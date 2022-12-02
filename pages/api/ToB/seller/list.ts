@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {getConn} from "../../../../utils/db";
-import {user_table} from "../../../../types/user";
+import {conn} from "../../../../utils/db";
 import {Pagination} from "../../../../types/common";
 
 
 export async function getSellerList(query:Pagination){
-	const conn = await getConn()
+	const connect =  (await conn)()
+
 	return new Promise((resolve,reject)=>{
-		conn.query(`select * from seller
+		connect.query(`select * from seller
 				where se_company like %${query.keyword}%
 				limit ${query.page},${query.size}`,(err,res)=>{
 			resolve(res)

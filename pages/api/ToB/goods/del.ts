@@ -1,13 +1,14 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {delAccountById} from "../menu/del";
 import {user_table} from "../../../../types/user";
-import {getConn} from "../../../../utils/db";
+import {conn} from "../../../../utils/db";
 
 
 export async function delById(query:user_table){
-	const conn = await getConn()
+	const connect =  (await conn)()
+
 	return new Promise((resolve,reject)=>{
-		conn.query("delete  from goods where id = ?",[query.id],(err,res)=>{
+		connect.query("delete  from goods where id = ?",[query.id],(err,res)=>{
 			resolve(res)
 		})
 	})

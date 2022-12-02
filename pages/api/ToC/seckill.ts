@@ -1,7 +1,7 @@
 /**
  * 随机获得5张商品轮播图
  */
-import {getConn, getRedis} from "../../../utils/db";
+import {conn} from "../../../utils/db";
 import {NextApiRequest, NextApiResponse} from "next";
 import Ret from "../../../utils/ret";
 
@@ -9,8 +9,9 @@ async function getData(){
 	// const redis = await getRedis()
 	// const ha sRedisData = await redis.get("data:carousel")
 	return new Promise(async (resolve, reject) => {
-		const conn = await getConn();
-    conn.query(
+		const connect =  (await conn)()
+		
+		connect.query(
       "select sort_type_name,goods_name from seckill,sort,goods where goods.sort_type_id = sort.id and seckill.go_id = goods.id limit 0,30",
       function (err, data) {
         if (err) {
