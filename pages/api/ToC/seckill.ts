@@ -9,17 +9,19 @@ async function getData(){
 	// const redis = await getRedis()
 	// const ha sRedisData = await redis.get("data:carousel")
 	return new Promise(async (resolve, reject) => {
-		const connect =  (await conn)()
-		
-		connect.query(
-      "select sort_type_name,goods_name from seckill,sort,goods where goods.sort_type_id = sort.id and seckill.go_id = goods.id limit 0,30",
-      function (err, data) {
-        if (err) {
-          reject(err);
-        }
-        resolve(data);
-      }
-    );
+		conn.getConnection((err,connect)=> {
+			connect.query(
+				"select sort_type_name,goods_name from seckill,sort,goods where goods.sort_type_id = sort.id and seckill.go_id = goods.id limit 0,30",
+				function (err, data) {
+					if (err) {
+						reject(err);
+					}
+					resolve(data);
+				}
+			);
+			connect.release()
+			
+		})
 	})
 }
 

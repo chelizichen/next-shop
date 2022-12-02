@@ -3,20 +3,26 @@ import {conn} from "../../../../utils/db";
 
 
 export async function updateAccount(values:any[]){
-	const connect =  (await conn)()
-
+	
 	return new Promise((resolve,reject)=>{
-		connect.query("update user  set ? where id = ?",(err,res)=>{
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			connect.query("update user  set ? where id = ?", (err, res) => {
+				resolve(res)
+			})
+			connect.release()
+			
 		})
 	})
 }
 
 export async function addAccount(values:any){
-	const connect =  (await conn)()
 	return new Promise((resolve,reject)=>{
-		connect.query("insert into user ?",[],(err,res)=>{
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			connect.query("insert into user ?", [], (err, res) => {
+				resolve(res)
+			})
+			connect.release()
+			
 		})
 	})
 }

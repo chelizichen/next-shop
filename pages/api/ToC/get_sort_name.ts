@@ -5,13 +5,15 @@ import Ret from "../../../utils/ret";
 
 async function getSortName(id:string){
 	return new Promise(async (resolve,reject)=>{
-		const connect =  (await conn)()
-		
-		connect.query("select * from sort where id = ? ",[id],function (err,data){
-			if(err){
-				reject(err)
-			}
-			resolve(data)
+		conn.getConnection((err,connect)=> {
+			connect.query("select * from sort where id = ? ", [id], function (err, data) {
+				if (err) {
+					reject(err)
+				}
+				resolve(data)
+			})
+			connect.release()
+			
 		})
 	})
 	

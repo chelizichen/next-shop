@@ -4,13 +4,16 @@ import {conn} from "../../utils/db";
 
 
 async function getUser(){
-  const connect =  (await conn)()
 
   return new Promise((resolve,reject)=>{
-    connect.query("select * from user",(err,res)=>{
-      console.log(res)
-      console.log(err)
-      resolve(res)
+    conn.getConnection((err,connection)=>{
+      connection.query("select * from user",(err,res)=>{
+        console.log(res)
+        console.log(err)
+        resolve(res)
+      })
+      connection.release()
+  
     })
   })
 

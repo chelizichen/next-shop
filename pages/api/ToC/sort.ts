@@ -5,14 +5,15 @@ import Ret from "../../../utils/ret";
 
 async function getSortData(id:string){
 	return new Promise(async (resolve,reject)=>{
-		const connect =  (await conn)()
-		
-		connect.query("select * from goods where sort_type_id = ? limit 0,10 ",[id],function (err,data){
-				if(err){
+		conn.getConnection((err,connect)=> {
+			connect.query("select * from goods where sort_type_id = ? limit 0,10 ", [id], function (err, data) {
+				if (err) {
 					reject(err)
 				}
 				resolve(data)
 			})
+			connect.release()
+		})
 	})
 	
 }

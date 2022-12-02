@@ -5,18 +5,18 @@ import {conn} from "../../../utils/db";
 import {NextApiRequest, NextApiResponse} from "next";
 import Ret from "../../../utils/ret";
 
-async function getCarouselData(){
-	const connect =  (await conn)()
-	
-	return new Promise(async (resolve,reject)=>{
-		connect.query("select * from carousel limit 0,10",function (err,data){
-				if(err){
+async function getCarouselData() {
+	return new Promise(async (resolve, reject) => {
+		conn.getConnection((err, connection) => {
+			connection.query("select * from carousel limit 0,10", function (err, data) {
+				if (err) {
 					reject(err)
 				}
 				resolve(data)
 			})
+			connection.release()
 		})
-
+	})
 }
 export default async function handler(
 	req: NextApiRequest,

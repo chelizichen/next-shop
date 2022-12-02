@@ -5,11 +5,15 @@ import {conn} from "../../../../utils/db";
 
 
 export async function delById(query:user_table){
-	const connect =  (await conn)()
 
 	return new Promise((resolve,reject)=>{
-		connect.query("delete  from goods where id = ?",[query.id],(err,res)=>{
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			
+			connect.query("delete  from goods where id = ?", [query.id], (err, res) => {
+				resolve(res)
+			})
+			connect.release()
+			
 		})
 	})
 }

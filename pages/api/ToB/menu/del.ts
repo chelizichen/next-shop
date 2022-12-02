@@ -4,11 +4,13 @@ import {user_table} from "../../../../types/user";
 
 
 export async function delAccountById(query:user_table){
-	const connect =  (await conn)()
 
 	return new Promise((resolve,reject)=>{
-		connect.query("delete  from menu where id = ?",[query.id],(err,res)=>{
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			connect.query("delete  from menu where id = ?", [query.id], (err, res) => {
+				resolve(res)
+			})
+			connect.release()
 		})
 	})
 }

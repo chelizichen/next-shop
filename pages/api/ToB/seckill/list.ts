@@ -5,11 +5,14 @@ import Ret from "../../../../utils/ret";
 
 
 export async function getSeckillList(){
-	const connect =  (await conn)()
 
 	return new Promise((resolve,reject)=>{
-		connect.query("select * from seckill",(err,res)=>{
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			
+			connect.query("select * from seckill", (err, res) => {
+				resolve(res)
+			})
+			connect.release()
 		})
 	})
 	

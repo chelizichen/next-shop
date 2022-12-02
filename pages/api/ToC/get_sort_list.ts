@@ -5,13 +5,17 @@ import Ret from "../../../utils/ret";
 
 export async function getSortList(){
 	return new Promise(async (resolve,reject)=>{
-		const connect =  (await conn)()
-		
-		connect.query("select * from sort  limit 0,10 ",function (err,data){
-			if(err){
-				reject(err)
-			}
-			resolve(data)
+		conn.getConnection((err,connect)=> {
+			
+			
+			connect.query("select * from sort  limit 0,10 ", function (err, data) {
+				if (err) {
+					reject(err)
+				}
+				resolve(data)
+			})
+			connect.release()
+			
 		})
 	})
 	

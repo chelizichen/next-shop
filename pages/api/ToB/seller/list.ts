@@ -4,13 +4,16 @@ import {Pagination} from "../../../../types/common";
 
 
 export async function getSellerList(query:Pagination){
-	const connect =  (await conn)()
 
 	return new Promise((resolve,reject)=>{
-		connect.query(`select * from seller
+		conn.getConnection((err,connect)=> {
+			
+			connect.query(`select * from seller
 				where se_company like %${query.keyword}%
-				limit ${query.page},${query.size}`,(err,res)=>{
-			resolve(res)
+				limit ${query.page},${query.size}`, (err, res) => {
+				resolve(res)
+			})
+			connect.release()
 		})
 	})
 }

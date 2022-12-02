@@ -4,10 +4,8 @@ import {conn} from "../../../utils/db";
 import Ret from "../../../utils/ret";
 
 async function Login(data: user) {
-	const connect =  (await conn)()
-
 	return new Promise((resolve, reject) => {
-		connect.query(
+		conn.query(
 			"insert into  user set ?",
 			[{
 				us_name:data.username,

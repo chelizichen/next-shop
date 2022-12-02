@@ -4,23 +4,29 @@ import {Pagination} from "../../../../types/common";
 
 
 export async function getList(pagination:Pagination){
-	const connect =  (await conn)()
+
 
 	return new Promise((resolve)=>{
 		let {keyword,page,size} = pagination
 		keyword = '%' + keyword + '%'
-		connect.query(`select * from goods where goods_name like ?`,[keyword,page,size],function (_,res){
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			connect.query(`select * from goods where goods_name like ?`, [keyword, page, size], function (_, res) {
+				resolve(res)
+			})
+			connect.release()
 		})
 	})
 }
 
 async function getTotal(){
-	const connect =  (await conn)()
-
+	
 	return new Promise(resolve=>{
-		connect.query("select count(*) as total from goods",function (_,res){
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			
+			connect.query("select count(*) as total from goods", function (_, res) {
+				resolve(res)
+			})
+			connect.release()
 		})
 	})
 	

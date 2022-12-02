@@ -4,10 +4,13 @@ import {conn} from "../../../../utils/db";
 
 
 export async function getAccountList(){
-	const connect =  (await conn)()
 	return new Promise((resolve,reject)=>{
-		connect.query("select * from user",(err,res)=>{
-			resolve(res)
+		conn.getConnection((err,connect)=> {
+			connect.query("select * from user", (err, res) => {
+				resolve(res)
+			})
+			connect.release()
+			
 		})
 	})
 	

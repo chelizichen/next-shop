@@ -10,16 +10,18 @@ import Ret from "../../../utils/ret";
 
 async function hasPermission(data:userInfo){
 	return new Promise(async(resolve,reject)=>{
-		const connect =  (await conn)()
-		
-		connect.query(
-			"select * from user where us_permission = ? and id = ?",
-			[data.permission,data.userId],
-			(err, result) => {
-				if (err) reject(err);
-				resolve(result);
-			}
-		);
+		conn.getConnection((err,connection)=> {
+			connection.query(
+				"select * from user where us_permission = ? and id = ?",
+				[data.permission, data.userId],
+				(err, result) => {
+					if (err) reject(err);
+					resolve(result);
+				}
+			);
+			connection.release()
+			
+		})
 	})
 }
 
@@ -30,17 +32,18 @@ export async function getMenu(data: userInfo) {
 			return  []// 后续更改
 		}
 	}
-	const connect =  (await conn)()
 
 	return new Promise((resolve, reject) => {
-		connect.query(
-			"select * from menu",
-			[data.permission],
-			(err, result) => {
-				if (err) reject(err);
-				resolve(result);
-			}
-		);
+		conn.getConnection((err,connection)=> {
+			connection.query(
+				"select * from menu",
+				[data.permission],
+				(err, result) => {
+					if (err) reject(err);
+					resolve(result);
+				}
+			);
+		})
 	});
 }
 
