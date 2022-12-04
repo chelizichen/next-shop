@@ -8,7 +8,7 @@ export async function getSortList(){
 		conn.getConnection((err,connect)=> {
 			
 			
-			connect.query("select * from sort  limit 0,10 ", function (err, data) {
+			connect.query("select * from sort where sort_is_root = 1  limit 0,10 ", function (err, data) {
 				if (err) {
 					reject(err)
 				}

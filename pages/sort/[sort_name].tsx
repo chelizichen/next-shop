@@ -1,8 +1,10 @@
 import {useEffect} from "react";
 import ToCLayout from "../../compoents/ToC/Layout";
 import RegistryPage from "../../compoents/ToC/Registry";
-import {getTags} from "../api/ToC/get_tags";
+import {getGoodsAboutChildTag, getGoodsBySortId, getTags} from "../api/ToC/get_tags";
 import Tags from "../../compoents/ToC/Sort/Tags";
+import {Divider} from "antd";
+import GoodItems from "../../compoents/ToC/Sort/GoodItem";
 
 
 /**
@@ -18,28 +20,31 @@ export default function SortPage({data}:any){
 	},[])
 	return(
 		<ToCLayout>
-			<div>
-				分类页面{data.query.sort_name}
-			</div>
-			<div>
-				分类ID{data.query.sort_id}
-			</div>
+			<Divider orientation="left">分类:{data.query.sort_name}</Divider>
 			<Tags tags={JSON.parse(data.tags)}></Tags>
+			<GoodItems goods={JSON.parse(data.goods)}></GoodItems>
 		</ToCLayout>
 	)
 }
 
 export async function getServerSideProps({ params,query }: any) {
 	console.log(query)
-	const Tags = await getTags(query.sort_id)
-	console.log('Tags',Tags)
+	
+	const Tags = query.sort_id?await getTags(query.sort_id):[]
+	const GoodsBySortId = query.sort_id?await getGoodsBySortId(query.sort_id):[];
+	
+	const GoodsAboutChildTag = query.sort_child_id?await getGoodsAboutChildTag(query.sort_child_id):[]
+	
+	
 	// 获得 Tags 大标签与小标签
 	// 获得 大的商品列表
 	return {
 		props: {
 			data: {
 				query,
-				tags:JSON.stringify(Tags)
+				tags:JSON.stringify(Tags),
+				// @ts-ignore
+				goods:GoodsBySortId.length?JSON.stringify(GoodsBySortId):JSON.stringify(GoodsAboutChildTag)  ,
 			},
 		},
 	};

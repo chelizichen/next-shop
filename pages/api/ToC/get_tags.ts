@@ -15,8 +15,35 @@ export async function getTags(id:string){
 			connect.release()
 		})
 	})
-	
 }
+
+export async function getGoodsBySortId(id:string){
+	return new Promise(async (resolve,reject)=>{
+		conn.getConnection((err,connect)=> {
+			connect.query("select * from goods  where sort_type_id = ? limit 0,10 ", [id], function (err, data) {
+				if (err) {
+					reject(err)
+				}
+				resolve(data)
+			})
+			connect.release()
+		})
+	})
+}
+export async function getGoodsAboutChildTag(id:string){
+	return new Promise(async (resolve,reject)=>{
+		conn.getConnection((err,connect)=> {
+			connect.query("select * from goods  where sort_child_id = ? limit 0,10 ", [id], function (err, data) {
+				if (err) {
+					reject(err)
+				}
+				resolve(data)
+			})
+			connect.release()
+		})
+	})
+}
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
