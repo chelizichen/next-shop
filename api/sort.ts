@@ -29,3 +29,11 @@ export function getTags(params:PamarmsId){
 		params
 	})
 }
+
+
+export function del__sort(params:PamarmsId){
+	return request({
+		url:"/ToB/sort/del",
+		params
+	})
+}
