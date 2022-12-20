@@ -9,6 +9,7 @@ import { getSeckillList } from '../../../../api/seckill';
 
 
 
+
 type toObj = {
 	key:string,
 	value:string[]
@@ -34,15 +35,14 @@ export default function SkillComponent() {
 		<div className="site-card-wrapper">
 			<Row gutter={16}>
 				<Skeleton active loading={load}>
-				
 				{
 					skill_data.current?.map(el=>{
 						return (
 							<Col span={8}>
-								<Card title={el.key} bordered={false}>
-										<div>
+								<Card title={el.key} bordered={true} style={{textAlign:"center"}} >
+										<div className={'seckill_items'}>
 											{el.value.map((cld=>{
-												return <div>{cld}</div>
+												return <div className={'seckill_item'}>{cld}</div>
 											}))}
 										</div>
 								</Card>
@@ -51,6 +51,19 @@ export default function SkillComponent() {
 					})
 				}
 				</Skeleton>
+				
+				<style jsx scoped>{`
+.seckill_items{
+	text-align: center;
+}
+
+.seckill_item{
+font-size: 18px;
+margin: 3px 0;
+color: #22252a;
+}
+
+`}</style>
 			</Row>
 		</div>
 	)

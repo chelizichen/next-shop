@@ -9,6 +9,7 @@ export type goods_table = {
 	goods_rest_num: number; // 商品剩余数量
 	seller_id:number; // 商家名称
 	sort_child_id:string; // 分类所属子分类
+	goods_pic:string;
 	// createTime:Date;
 }
 

@@ -7,3 +7,11 @@ export function del_goods(params:PamarmsId){
 		params
 	})
 }
+
+export function one(params:PamarmsId){
+	return request({
+		url:"/ToC/goods_info",
+		params
+	})
+}
+

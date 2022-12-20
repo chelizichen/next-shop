@@ -22,7 +22,7 @@ export default async function handler(
 	res: NextApiResponse
 ) {
 	const {query} = req
-	
+	// @ts-ignore
 	const data = await getSortData(query.id);
 	
 	res.status(200).json(Ret.success(data));
