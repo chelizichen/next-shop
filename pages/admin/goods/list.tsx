@@ -1,7 +1,6 @@
 import ToBLayout from "../../../compoents/ToB/Layout";
 import React, {useState} from "react";
 import {GetServerSidePropsContext} from "next/types";
-import {getMenu} from "../../api/user/menu";
 import {getList} from "../../api/ToB/goods/list";
 import {goods_table} from "../../../types/goods";
 import {ColumnsType, TableProps} from "antd/es/table";
@@ -29,9 +28,17 @@ function ActionComponent({record}:any){
 		del_action(record)
 	};
 	
+	const toUpdate = ()=>{
+		router.push({
+			pathname:"/admin/goods/update",
+			query:record
+		})
+	}
+	
+	
 	return (
 		<div>
-			<Button disabled={canSet} type={"primary"}>修改</Button>
+			<Button disabled={canSet} type={"primary"} onClick={toUpdate}>修改</Button>
 			<Popconfirm
 				title="Are you sure to delete this task?"
 				// @ts-ignore
@@ -108,12 +115,6 @@ export async function getServerSideProps(props: GetServerSidePropsContext) {
 		size:10,
 		keyword:""
 	}) as Array<goods_table&{key:React.Key}>
-	
-	console.log(list)
-	// list = list.map(el=>{
-	// 	el.key = el.id
-	// 	return el
-	// })
 	
 	return {
 		props: {

@@ -8,12 +8,9 @@ import {useRouter} from "next/router";
 import {user_table} from "../../../types/user";
 
 
-const Visiable = React.createContext({}) as any
-
 
 function UpdateComponent({open,data}:any){
 
-	const setOpen = useContext(Visiable) as any
 	
 	const handleOk = (e: React.MouseEvent<HTMLElement>) => {
 		console.log(e);
@@ -59,11 +56,17 @@ function ActionComponent({record}:any){
 		del_action(record)
 	};
 	
-	const setOpen = useContext(Visiable) as Function
+	
+	const toUpdate = ()=>{
+		router.push({
+			pathname:"/admin/goods/update",
+			query:record
+		})
+	}
 	
 	return (
 		<div>
-			<Button disabled={canSet} type={"primary"} onClick={()=>setOpen(true,2)}>修改</Button>
+			<Button disabled={canSet} type={"primary"} onClick={toUpdate}>修改</Button>
 			<Popconfirm
 				title="Are you sure to delete this task?"
 				// @ts-ignore
@@ -142,10 +145,8 @@ export default function AccountPage({list}:any){
 	
 	return(
 		<ToBLayout>
-			<Visiable.Provider value={handleSetOpen}>
 				<AccountList list={JSON.parse(list)}></AccountList>
 				<UpdateComponent open={open} data={data}></UpdateComponent>
-			</Visiable.Provider>
 		</ToBLayout>
 	)
 }

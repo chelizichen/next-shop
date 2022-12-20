@@ -26,9 +26,16 @@ function ActionComponent({record}:any){
 		del_action(record)
 	};
 	
+	const toUpdate = ()=>{
+		router.push({
+			pathname:"/admin/goods/update",
+			query:record
+		})
+	}
+	
 	return (
 		<div>
-			<Button disabled={canSet} type={"primary"}>修改</Button>
+			<Button disabled={canSet} type={"primary"} onClick={toUpdate}>修改</Button>
 			<Popconfirm
 				title="Are you sure to delete this task?"
 				// @ts-ignore

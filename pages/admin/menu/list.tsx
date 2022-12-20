@@ -1,12 +1,10 @@
 import ToBLayout from "../../../compoents/ToB/Layout";
 import {GetServerSideProps} from "next";
 import {GetServerSidePropsContext} from "next/types";
-import {userInfo} from "../../../types/user";
-import {getConn} from "../../../utils/db";
+import {user_table, userInfo} from "../../../types/user";
 import {getMenu} from "../../api/user/menu";
 import {useRouter} from "next/router";
 import React, {useState} from "react";
-import {user_table} from "../../../types/account";
 import {Button, Menu, message, Popconfirm, Table} from "antd";
 import {ColumnsType, TableProps} from "antd/es/table";
 import {is_root, menu_table} from "../../../types/menu";
@@ -28,10 +26,17 @@ function MenuComponent({record}:any){
 		console.log(e);
 		del_action(record)
 	};
-
+	
+	const toUpdate = ()=>{
+		router.push({
+			pathname:"/admin/goods/update",
+			query:record
+		})
+	}
+	
 	return (
 		<div>
-			<Button disabled={canSet} type={"primary"}>修改</Button>
+			<Button disabled={canSet} type={"primary"} onClick={toUpdate}>修改</Button>
 			<Popconfirm
 				title="Are you sure to delete this task?"
 				onConfirm={confirm}

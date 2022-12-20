@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {GetServerSidePropsContext} from "next/types";
 import {Button, Checkbox, Form, Input} from "antd";
 
-export default function GoodsUpdatePage({query}:any){
+export default function SellerUpdatePage({query}:any){
 	
 	const [isUpdate,setUpdate] = useState(false)
 	
